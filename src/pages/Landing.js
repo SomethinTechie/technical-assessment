@@ -1,7 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Landing = () => {
+    const [userData, setUserData] = React.useState(null);
+
+    useEffect(() => {
+        // Fetch and display the stored data from AsyncStorage
+        const fetchStoredData = async () => {
+            try {
+                const storedData = await AsyncStorage.getItem('userData');
+                if (storedData) {
+                    setUserData(JSON.parse(storedData));
+                }
+            } catch (e) {
+                console.error('Error fetching data from AsyncStorage:', e);
+            }
+        };
+
+        fetchStoredData();
+    }, []);
+
     return (
         <div className="">
             <div className="space-between">
@@ -12,14 +31,21 @@ const Landing = () => {
                         You are 82% complete
                     </p>
                 </div>
-                <Link className="button" to="/application">
-                    Continue Application
-                </Link>
+                {userData ? (
+                    <Link className="button" to="/application">
+                        Continue Application
+                    </Link>
+                ) : (
+                    <Link className="button" to="/application">
+                        Start Application
+                    </Link>
+                )}
             </div>
 
             <div className="application-steps-container">
                 <div className="application-step">
-                    <p className="text14 active">Complete</p>
+                    {userData && <p className="text14 active">Complete</p>}
+
                     <p className="text16">1. Credit check</p>
                     <p className="text14">Check if you qulify</p>
 
@@ -69,83 +95,107 @@ const Landing = () => {
                     </div>
                 </div>
                 <div className="application-step">
-                    <p className="text14 active">Complete</p>
+                    {userData && <p className="text14 active">Complete</p>}
                     <p className="text16">2. KYC</p>
                     <p className="text14">Check if you qulify</p>
 
                     <div className="sect mt20">
                         <div className="step">
-                            <div className="checkbox active"></div>
+                            <div
+                                className={`checkbox ${userData && 'active'}`}
+                            ></div>
                             <span style={{ width: '150px' }}>
                                 <span className="text16 full-width-30">
                                     Applicant Details
                                 </span>
-                                <span className="text14 active">Completed</span>
+                                {userData && (
+                                    <p className="text14 active">Complete</p>
+                                )}
                             </span>
                         </div>
                     </div>
 
                     <div className="sect mt20">
                         <div className="step">
-                            <div className="checkbox active"></div>
+                            <div
+                                className={`checkbox ${userData && 'active'}`}
+                            ></div>
                             <span style={{ width: '150px' }}>
                                 <span className="text16 full-width-30">
                                     Company Details
                                 </span>
-                                <span className="text14 active">Completed</span>
+                                {userData && (
+                                    <p className="text14 active">Complete</p>
+                                )}
                             </span>
                         </div>
                     </div>
 
                     <div className="sect mt20">
                         <div className="step">
-                            <div className="checkbox active"></div>
+                            <div
+                                className={`checkbox ${userData && 'active'}`}
+                            ></div>
                             <span style={{ width: '150px' }}>
                                 <span className="text16 full-width-30">
                                     Director Details
                                 </span>
-                                <span className="text14 active">Completed</span>
+                                {userData && (
+                                    <p className="text14 active">Complete</p>
+                                )}
                             </span>
                         </div>
                     </div>
 
                     <div className="sect mt20">
                         <div className="step">
-                            <div className="checkbox active"></div>
+                            <div
+                                className={`checkbox ${userData && 'active'}`}
+                            ></div>
                             <span style={{ width: '150px' }}>
                                 <span className="text16 full-width-30">
                                     Banking Details
                                 </span>
-                                <span className="text14 active">Completed</span>
+                                {userData && (
+                                    <p className="text14 active">Complete</p>
+                                )}
                             </span>
                         </div>
                     </div>
 
                     <div className="sect mt20">
                         <div className="step">
-                            <div className="checkbox last active"></div>
+                            <div
+                                className={`checkbox last ${userData && 'active'}`}
+                            ></div>
                             <span style={{ width: '150px' }}>
                                 <span className="text16 full-width-30">
                                     3-year Production History
                                 </span>
-                                <span className="text14 active">Completed</span>
+                                {userData && (
+                                    <p className="text14 active">Complete</p>
+                                )}
                             </span>
                         </div>
                     </div>
                 </div>
                 <div className="application-step">
-                    <p className="text14 active">In Progress</p>
+                    {userData && <p className="text14 active">In Progress</p>}
                     <p className="text16">3. Farm Profile</p>
                     <p className="text14">Check if you qulify</p>
 
                     <div className="sect mt10">
                         <div className="step">
-                            <div className="checkbox active"></div>
+                            <div
+                                className={`checkbox ${userData && 'active'}`}
+                            ></div>
                             <span style={{ width: '150px' }}>
                                 <span className="text16 full-width-30">
                                     Farm / Company Overview
                                 </span>
-                                <span className="text14 active">Completed</span>
+                                {userData && (
+                                    <p className="text14 active">Complete</p>
+                                )}
                             </span>
                         </div>
                     </div>

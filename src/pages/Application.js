@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQuery, gql } from '@apollo/client';
 
 // Define your GraphQL query
 const GET_USER = gql`
     {
-        users {
+        user {
             name
             surname
             farmer {
@@ -18,20 +19,49 @@ const GET_USER = gql`
 `;
 
 const Application = () => {
-    const { loading, error, data } = useQuery(GET_USER);
+    const [userData, setUserData] = React.useState(null);
+    const [farmName, setFarmName] = React.useState('');
+
+    const { loading, error, data } = useQuery(GET_USER, {
+        onCompleted: async data => {
+            try {
+                // Check if user data already exists in AsyncStorage
+                const existingData = await AsyncStorage.getItem('userData');
+
+                if (existingData) {
+                    setUserData(JSON.parse(existingData));
+                } else {
+                    // Save the new data if it does not exist
+                    await AsyncStorage.setItem(
+                        'userData',
+                        JSON.stringify(data.user.farmer)
+                    );
+                    console.log('Data saved successfully to AsyncStorage');
+                }
+            } catch (e) {
+                console.error('Error handling AsyncStorage data:', e);
+            }
+        },
+    });
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {JSON.stringify(error)}</p>;
 
+    console.log(data.user.farmer.farm.name);
+
     return (
         <div>
             <div className="application-tabs">
-                <div className="tab">
+                <Link
+                    className="tab"
+                    to="/"
+                    style={{ color: '#000', textDecoration: 'none' }}
+                >
                     <p>X</p>
                     <p className="text16">
                         Save <br /> & Close
                     </p>
-                </div>
+                </Link>
                 <div className="tab">
                     <p className="text14 active">Complete</p>
                     <p className="text16">1. Credit check</p>
@@ -70,7 +100,11 @@ const Application = () => {
                                 <span className="text16 full-width-30">
                                     Farm / Company Overview
                                 </span>
-                                <span className="text14 active">Completed</span>
+                                {data && (
+                                    <span className="text14 active">
+                                        Completed
+                                    </span>
+                                )}
                             </span>
                         </div>
                     </div>
@@ -159,7 +193,16 @@ const Application = () => {
                         <div className="form-group">
                             <div className="col-md-6 paddingRight">
                                 <p className="label">Farm name</p>
-                                <input placeholder="" />
+                                <input
+                                    placeholder="Enter farm name..."
+                                    value={
+                                        loading
+                                            ? 'Loading...'
+                                            : data?.user?.farmer?.farm?.name ||
+                                              farmName
+                                    }
+                                    onChange={e => setFarmName(e.target.value)}
+                                />
                             </div>
                             <div className="col-md-6">
                                 <input placeholder="Farm location" />

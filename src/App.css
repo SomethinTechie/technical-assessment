@@ -188,6 +188,7 @@ p {
     border: solid 0.1px #ddd;
 }
 .tab {
+    width: 13%;
     float: left;
     padding: 20px;
     border-left: solid 0.1px #ddd;
