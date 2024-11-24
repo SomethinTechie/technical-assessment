@@ -29,6 +29,7 @@ const Application = () => {
                 const existingData = await AsyncStorage.getItem('userData');
 
                 if (existingData) {
+                    console.log('existing user data set');
                     setUserData(JSON.parse(existingData));
                 } else {
                     // Save the new data if it does not exist
@@ -47,7 +48,7 @@ const Application = () => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {JSON.stringify(error)}</p>;
 
-    console.log(data.user.farmer.farm.name);
+    console.log(data);
 
     return (
         <div>
@@ -197,9 +198,8 @@ const Application = () => {
                                     placeholder="Enter farm name..."
                                     value={
                                         loading
-                                            ? 'Loading...'
-                                            : data?.user?.farmer?.farm?.name ||
-                                              farmName
+                                            ? farmName
+                                            : data?.user?.farmer?.farm?.name
                                     }
                                     onChange={e => setFarmName(e.target.value)}
                                 />

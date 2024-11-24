@@ -49,50 +49,58 @@ const Landing = () => {
                     <p className="text16">1. Credit check</p>
                     <p className="text14">Check if you qulify</p>
 
-                    <div className="mt20">
-                        <div className="sect">
-                            <span className="text14">Score</span>
-                        </div>
-                        <div className="sect mt10">
-                            <span className="text30">642</span>
-                        </div>
-                    </div>
+                    {userData && (
+                        <>
+                            <div className="mt20">
+                                <div className="sect">
+                                    <span className="text14">Score</span>
+                                </div>
+                                <div className="sect mt10">
+                                    <span className="text30">642</span>
+                                </div>
+                            </div>
 
-                    <div className="mt20">
-                        <div className="sect">
-                            <span className="text14">Status</span>
-                        </div>
-                        <div className="sect mt10">
-                            <span className="text30">High Risk</span>
-                        </div>
-                    </div>
+                            <div className="mt20">
+                                <div className="sect">
+                                    <span className="text14">Status</span>
+                                </div>
+                                <div className="sect mt10">
+                                    <span className="text30">High Risk</span>
+                                </div>
+                            </div>
 
-                    <div className="mt20">
-                        <div className="sect">
-                            <span className="text14">Issue 1</span>
-                        </div>
-                        <div className="sect">
-                            <span className="text16">Too many inquiries</span>
-                        </div>
-                    </div>
+                            <div className="mt20">
+                                <div className="sect">
+                                    <span className="text14">Issue 1</span>
+                                </div>
+                                <div className="sect">
+                                    <span className="text16">
+                                        Too many inquiries
+                                    </span>
+                                </div>
+                            </div>
 
-                    <div className="mt20">
-                        <div className="sect">
-                            <span className="text14">Issue 2</span>
-                        </div>
-                        <div className="sect">
-                            <span className="text16">Overdrown Accounts</span>
-                        </div>
-                    </div>
+                            <div className="mt20">
+                                <div className="sect">
+                                    <span className="text14">Issue 2</span>
+                                </div>
+                                <div className="sect">
+                                    <span className="text16">
+                                        Overdrown Accounts
+                                    </span>
+                                </div>
+                            </div>
 
-                    <div className="mt20">
-                        <div className="sect">
-                            <span className="text14">Issue 3</span>
-                        </div>
-                        <div className="sect">
-                            <span className="text16">2 Judgements</span>
-                        </div>
-                    </div>
+                            <div className="mt20">
+                                <div className="sect">
+                                    <span className="text14">Issue 3</span>
+                                </div>
+                                <div className="sect">
+                                    <span className="text16">2 Judgements</span>
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
                 <div className="application-step">
                     {userData && <p className="text14 active">Complete</p>}
